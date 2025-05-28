@@ -6,6 +6,8 @@ def clean_data_train(df: pd.DataFrame) -> pd.DataFrame:
     Cleans the Ryanair TOW training dataset:
     - Replaces '(null)' with np.nan
     - Converts DepartureDate to datetime
+    - Extracts DepartureWeekday
+    - Drops raw date columns
     - Converts relevant columns to numeric
     - Drops rows with missing ActualTOW or FLownPassengers
     """
@@ -14,6 +16,10 @@ def clean_data_train(df: pd.DataFrame) -> pd.DataFrame:
 
     if "DepartureDate" in df.columns:
         df["DepartureDate"] = pd.to_datetime(df["DepartureDate"], dayfirst=True, errors="coerce")
+        df["DepartureWeekday"] = df["DepartureDate"].dt.dayofweek.astype("category")
+
+    # Drop unnecessary date columns
+    df.drop(columns=[col for col in ["DepartureDate", "DepartureYear", "DepartureMonth", "DepartureDay"] if col in df.columns], inplace=True)
 
     numeric_cols = [
         "ActualTOW", "FLownPassengers", "BagsCount", "FlightBagsWeight",
@@ -28,11 +34,14 @@ def clean_data_train(df: pd.DataFrame) -> pd.DataFrame:
     df.reset_index(drop=True, inplace=True)
     return df
 
+
 def clean_data_val(df: pd.DataFrame, median_flown_passengers=None) -> pd.DataFrame:
     """
     Cleans the Ryanair TOW validation dataset:
     - Replaces '(null)' with np.nan
     - Converts DepartureDate to datetime
+    - Extracts DepartureWeekday
+    - Drops raw date columns
     - Converts relevant columns to numeric
     - Imputes missing FLownPassengers with the provided median (from train)
     - Drops rows with missing ActualTOW (if present)
@@ -42,6 +51,10 @@ def clean_data_val(df: pd.DataFrame, median_flown_passengers=None) -> pd.DataFra
 
     if "DepartureDate" in df.columns:
         df["DepartureDate"] = pd.to_datetime(df["DepartureDate"], dayfirst=True, errors="coerce")
+        df["DepartureWeekday"] = df["DepartureDate"].dt.dayofweek.astype("category")
+
+    # Drop unnecessary date columns
+    df.drop(columns=[col for col in ["DepartureDate", "DepartureYear", "DepartureMonth", "DepartureDay"] if col in df.columns], inplace=True)
 
     numeric_cols = [
         "ActualTOW", "FLownPassengers", "BagsCount", "FlightBagsWeight",
@@ -61,6 +74,7 @@ def clean_data_val(df: pd.DataFrame, median_flown_passengers=None) -> pd.DataFra
 
     df.reset_index(drop=True, inplace=True)
     return df
+
 
 def handle_outliers(df: pd.DataFrame, cap_dict: dict) -> pd.DataFrame:
     """
