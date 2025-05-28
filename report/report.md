@@ -134,6 +134,7 @@
 | 8    | FlightBagsWeight   | 1.58        |
 | 9    | DepartureWeekday   | 1.33        |
 | 10   | BagsCount          | 1.27        |
+
 ![final_result_importance](final_result_importance.png)
 ### Predictions
 - **Validation Set Predictions:**
