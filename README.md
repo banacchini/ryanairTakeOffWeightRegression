@@ -3,7 +3,7 @@
 ## Overview
 This project predicts the take-off weight of Ryanair flights using machine learning. It includes a data preprocessing pipeline, exploratory data analysis (EDA) in Jupyter notebooks, and a reproducible workflow for training and validation.
 
-You can find a detailed analysis and modeling report in [report/report.md](https://github.com/banacchini/ryanairTakeOffWeightRegression/blob/main/report/report.md)
+You can find a detailed analysis and modeling report in [report/report.md](https://github.com/banacchini/ryanairTakeOffWeightRegression/blob/master/report/report.md)
 
 The final model is a CatBoost Regressor, selected for its strong performance and ability to handle categorical features natively. The workflow covers outlier capping, missing value imputation, and careful feature engineering. 
 
